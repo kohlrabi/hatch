@@ -226,6 +226,13 @@ class WheelBuilderConfig(BuilderConfig):
                 relative_path = os.path.relpath(possible_namespace_packages[0], self.root)
                 namespace = relative_path.split(os.sep)[0]
                 return FileSelectionOptions([], exclude, [namespace], [])
+
+            possible_namespace_packages = glob(os.path.join(self.root, 'src', '*', project_name, '__init__.py'))
+            if len(possible_namespace_packages) == 1:
+                relative_path = os.path.relpath(possible_namespace_packages[0], self.root)
+                namespace = relative_path.split(os.sep)[1]
+                return FileSelectionOptions([], exclude, [f'src/{namespace}'], [])
+
             project_names.add(project_name)
 
         if self.bypass_selection or self.build_artifact_spec is not None or self.get_force_include():

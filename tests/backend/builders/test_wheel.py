@@ -165,6 +165,22 @@ class TestDefaultFileSelection:
         assert builder.config.default_packages() == ['ns']
         assert builder.config.default_only_include() == []
 
+    def test_namespace_src_layout(self, temp_dir):
+        config = {
+            'project': {'name': 'my-app', 'version': '0.0.1'},
+            'tool': {'hatch': {'build': {'targets': {'wheel': {'exclude': ['foobarbaz']}}}}},
+        }
+        builder = WheelBuilder(str(temp_dir), config=config)
+
+        namespace_root = temp_dir / 'src' / 'ns' / 'my_app' / '__init__.py'
+        namespace_root.ensure_parent_dir_exists()
+        namespace_root.touch()
+
+        assert builder.config.default_include() == []
+        assert builder.config.default_exclude() == ['foobarbaz']
+        assert builder.config.default_packages() == ['src/ns']
+        assert builder.config.default_only_include() == []
+
     def test_default_error(self, temp_dir):
         config = {
             'project': {'name': 'MyApp', 'version': '0.0.1'},

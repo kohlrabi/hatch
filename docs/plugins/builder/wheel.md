@@ -39,6 +39,7 @@ When the user has not set any [file selection](../../config/build.md#file-select
 2. `src/<NAME>/__init__.py`
 3. `<NAME>.py`
 4. `<NAMESPACE>/<NAME>/__init__.py`
+5. `src/<NAMESPACE>/<NAME>/__init__.py`
 
 If none of these heuristics are satisfied, an error will be raised.
 
